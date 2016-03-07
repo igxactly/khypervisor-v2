@@ -286,7 +286,14 @@ static hvmm_status_t timer_dump(void)
     return HVMM_STATUS_SUCCESS;
 }
 
+static hvmm_status_t generic_timer_init(void)
+{
+    generic_timer_reg_write(GENERIC_TIMER_REG_FREQ, CFG_CNTFRQ);
+    return HVMM_STATUS_SUCCESS;
+}
+
 struct timer_ops _timer_ops = {
+    .init = generic_timer_init,
     .enable = timer_enable,
     .disable = timer_disable,
     .set_interval = timer_set_tval,

@@ -20,14 +20,9 @@ BEGIN_PROC(__start)
     beq     __error_ve              @ If ID_PFR[12] is equal to 0, stop here.
 
     @ Check the Generic Timer Extenion.
-    @ TODO(wonseok): We will move the generic timer configuration into C code.
     mrc     p15, 0, r0, c0, c1, 1   @ Read a Processor Feature Register 1(ID_PFR1).
     tst     r0, #0x00010000         @ Compare the value in ID_PFR[12] to 1 or 0.
     beq     __error_ge
-
-    @ Configure the Generic Timer Frequency
-    ldr        r0, = CFG_CNTFRQ
-    mcr        p15, 0, r0, c14, c0, 0
 
 #ifdef __CONFIG_SMP__
     @ is here on primary CPU?
