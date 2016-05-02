@@ -21,6 +21,11 @@ int handle_data_abort(struct core_regs *regs, uint32_t iss)
             break;
 
         case FSR_ACCESS_FAULT(1) ... FSR_ACCESS_FAULT(3):
+            fipa = read_cp32(HPFAR) << 8;
+            fipa |= (read_cp32(HPFAR) & PAGE_MASK);
+            if (fipa >= 0x1A000000 && fipa < 0x1B000000) {
+                printf("FSR_ACCESS_FAULT: fipa 0x%08x\n", fipa);
+            }
             vdev_handler(regs, iss);
             ret = 0;
             break;

@@ -21,6 +21,10 @@ hvmm_status_t do_irq(struct core_regs *regs)
 
     irq_hw->eoi(irq);
 
+    if (irq == 47) {
+        printf("1 %s %d\n", __func__, irq);
+    }
+
     if (irq < 16) {
         // SGI Handler
         printf("SGI Occurred\n");
@@ -29,9 +33,15 @@ hvmm_status_t do_irq(struct core_regs *regs)
         irq_handlers[irq](irq, regs, 0);
         irq_hw->dir(irq);
     } else if (vdev_irq_handlers[irq]) {
+        if (irq == 47) {
+            printf("2 %s %d\n", __func__, irq);
+        }
         // Handler for VMs
         vdev_irq_handlers[irq](irq, regs, 0);
     } else {
+        if (irq == 47) {
+            printf("%s %d\n", __func__, irq);
+        }
         // Not found handler that just forward irq to VMs
         is_guest_irq(irq);
     }
