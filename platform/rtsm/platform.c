@@ -36,6 +36,9 @@ void platform_init()
     paging_add_mapping(0x1C110000, 0x1C110000, MT_DEVICE, SZ_4K);
     paging_add_mapping(0x1C120000, 0x1C120000, MT_DEVICE, SZ_4K);
 
+    // for SMSC 91C111 (Ethernet)
+    paging_add_mapping(0x1A000000, 0x1A000000, MT_DEVICE, SZ_16M);
+
     paging_add_mapping(0xF0000000, CFG_HYP_START_ADDRESS, MT_WRITEBACK_RW_ALLOC, SZ_256M);
     paging_add_mapping(0x80000000, 0x80000000, MT_WRITEBACK_RW_ALLOC, SZ_256K);
     paging_add_mapping(0x90000000, 0x90000000, MT_WRITEBACK_RW_ALLOC, SZ_256K);
