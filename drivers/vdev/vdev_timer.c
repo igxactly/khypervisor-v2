@@ -1,33 +1,62 @@
-#include <vdev.h>
-#define DEBUG
 #include <stdio.h>
+#include <vdev.h>
 #include <core/timer.h>
 #include <arch/irq.h>
 #include <arch/armv7.h>
 #include <core/scheduler.h>
 #include <config.h>
-#include "../../drivers/gic-v2.h"
+#include <irq-chip.h>
 
-#define VTIMER_BASE_ADDR 0x3FFFE000
-#define VTIMER_IRQ 30
+// #define DEBUG
 
-struct vdev_vtimer_regs {
-    uint32_t vtimer_mask;
+#define VTIMER_IRQ 30 /* NS PL1 Timer */
+
+extern struct virq_chip *virq_hw;
+
+/* represents a generic timer w/o SE,VE (NS PL1, PL0 timer) */
+struct vdev_timer {
+    /* data for hypervisor */
+    uint64_t p_ct_offset;
+
+    /* regs for guest */
+    uint32_t k_ctl;
+
+    uint32_t p_ctl;
+    uint64_t p_cval;
+
+    uint32_t v_ctl;
+    uint64_t v_cval;
+    uint64_t v_off;
 };
 
-static struct vdev_memory_map _vdev_timer_info = {
-    .base = VTIMER_BASE_ADDR,
-    .size = sizeof(struct vdev_vtimer_regs),
-};
+/*
+CP64  CNTPCT
+CP64  CNTVCT
+CP64  CNTP_CVAL
+CP64  CNTV_CVAL
+CP64  CNTVOFF
+CP64  CNTHP_CVAL
 
-static struct vdev_vtimer_regs vtimer_regs[NUM_GUESTS_STATIC];
-static int _timer_status[NUM_GUESTS_STATIC] = {0, };
+CP32  CNTFRQ
+CP32  CNTKCTL
+CP32  CNTP_TVAL
+CP32  CNTP_CTL
+CP32  CNTV_TVAL
+CP32  CNTV_CTL
+CP32  CNTHCTL
+CP32  CNTHP_TVAL
+CP32  CNTHP_CTL
+ */
 
-static void vtimer_changed_status(vmid_t vmid, uint32_t status)
-{
-    _timer_status[vmid] = status;
+bool vdev_timer_access32(uint8_t dir, uint32_t *rt) {
+    return false;
 }
 
+bool vdev_timer_access64(uint8_t dir, uint32_t *rt_low, uint32_t *rt_high) {
+    return false;
+}
+
+#if 0
 static hvmm_status_t vdev_vtimer_access_handler(uint32_t write,
                                                 uint32_t offset, uint32_t *pvalue, enum vdev_access_size access_size)
 {
@@ -158,4 +187,8 @@ hvmm_status_t vdev_vtimer_init()
 
     return result;
 }
+
 // vdev_module_low_init(vdev_vtimer_init);
+
+#endif
+
