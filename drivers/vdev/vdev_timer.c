@@ -33,11 +33,7 @@ int vdev_timer_access32(uint8_t read, uint32_t what, uint32_t *rt)
     struct vcpu *vcpu = get_current_vcpu();
     struct vdev_timer *v = &vcpu->vtimer;
     uint32_t *target = NULL;
-
     uint32_t tmp = 0;
-    uint64_t tmp64 = 0;
-
-    // bool cval_write = false;
 
     switch (what) {
         case CP32(CNTFRQ)    :
@@ -59,22 +55,18 @@ int vdev_timer_access32(uint8_t read, uint32_t what, uint32_t *rt)
                 tmp = (uint32_t)
                     ( v->p_cval - (timer_get_syscounter() - v->p_ct_offset) );
             } else {
-                // cval_write = true;
                 /* FIXME:(igkang) sign extension of *rt needed */
-                tmp64 = (timer_get_syscounter() - v->p_ct_offset + *rt);
-                return vdev_timer_access64(read, CP64(CNTP_CVAL),
-                        (uint32_t *) &tmp64, (uint32_t *) &tmp64 + 1);
+                v->p_cval = (timer_get_syscounter() - v->p_ct_offset + *rt);
+                return 0;
             }
         case CP32(CNTV_TVAL) :
             if (read) {
                 tmp = (uint32_t)
                     ( v->v_cval - (timer_get_syscounter() - v->p_ct_offset) );
             } else {
-                // cval_write = true;
                 /* FIXME:(igkang) sign extension of *rt needed */
-                tmp64 = (timer_get_syscounter() - v->p_ct_offset + *rt);
-                return vdev_timer_access64(read, CP64(CNTV_CVAL),
-                        (uint32_t *) &tmp64, (uint32_t *) &tmp64 + 1);
+                v->v_cval = (timer_get_syscounter() - v->p_ct_offset + *rt);
+                return 0;
             }
             /* do subtraction and set cval */
             break;
