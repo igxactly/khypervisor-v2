@@ -123,6 +123,19 @@ int vdev_timer_access64(uint8_t read, uint32_t what, uint32_t *rt_low, uint32_t 
     return 0;
 }
 
+void init_vdev_timer(struct vdev_timer *v)
+{
+    /* for reset values, see ARMv7 reference manual */
+    // reset _CTLs
+    // timer interrupt mask?
+    // couter offset
+
+    // init and register sw timer
+    tm_register_timer(&v->swtimer, NULL); // vdev_timer_handler);
+}
+
+
+
 #if 0
 static hvmm_status_t vdev_vtimer_access_handler(uint32_t write,
         uint32_t offset, uint32_t *pvalue, enum vdev_access_size access_size)
