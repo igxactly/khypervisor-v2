@@ -90,8 +90,10 @@ int vdev_timer_access32(uint8_t read, uint32_t what, uint32_t *rt)
                 v->p_cval = (timer_get_syscounter() - v->p_ct_offset + *rt);
                 return 0;
             }
+            break;
         case CP32(CNTV_TVAL) :
             if (read) {
+                target = &tmp;
                 tmp = (uint32_t)
                     ( v->v_cval - (timer_get_syscounter() - v->p_ct_offset) );
             } else {
