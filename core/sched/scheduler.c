@@ -23,7 +23,7 @@ void sched_init() /* TODO: const struct sched_config const* sched_config)*/
     /* Allocate and initialize data */
     uint32_t pcpu;
     for (pcpu = 0; pcpu < NR_CPUS; pcpu++) {
-        const struct sched_policy *p = &sched_rr;
+        const struct sched_policy *p = &sched_rt_rm;
 
         struct scheduler *s
             = sched[pcpu]

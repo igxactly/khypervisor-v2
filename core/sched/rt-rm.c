@@ -49,7 +49,7 @@ int sched_rm_vcpu_register(struct scheduler *s, struct sched_entry *e)
     struct entry_data_rm *ed = (struct entry_data_rm *) (e + 1);
 
     /* FIXME:(igkang) Hardcoded. should use config data. */
-    ed->period = 10;
+    ed->period = 4;
     ed->budget = 2;
 
     LIST_INITHEAD(&ed->head);
