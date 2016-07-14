@@ -17,8 +17,8 @@ const struct sched_policy *schedconf_g_policy[NR_CPUS] = {
 uint32_t schedconf_g_vcpu_to_pcpu_map[TOTAL_VCPUS] = {
     0,
     0,
-    // 0,
-    1
+    1,
+    0
 };
 
 /*****
@@ -35,10 +35,10 @@ uint32_t schedconf_rm_tick_interval_ms[NR_CPUS] = {
 
 /* vcpu -> {period, budget} in tick count */
 uint32_t schedconf_rm_period_budget[TOTAL_VCPUS][2] = {
-    {10, 5},
-    {10, 5},
-    // {10, 2},
-    {0, }
+    {10, 2},
+    {10, 3},
+    {0, },
+    {10, 5} // {90909, 909} /* magic number for idle task */
 };
 
 /*****
