@@ -124,20 +124,6 @@ int sched_rm_do_schedule(struct scheduler *s, uint64_t *expiration)
         while(1);
     }
 
-    /* Check & decrease current running entry's budge count */
-    /*
-    if (sd->current == NULL) {
-        is_switching_needed = true;
-    } else {
-        current_ed = sd->current;
-        if (current_ed->budget_cntdn == 0) {
-            is_switching_needed = true;
-        } else {
-            current_ed->budget_cntdn -= 1;
-        }
-    }
-    */
-
     /* Check & decrease all entries' period count */
     struct entry_data_rm *ed = NULL;
     if (true) { // if (is_switching_needed) {
@@ -186,22 +172,6 @@ int sched_rm_do_schedule(struct scheduler *s, uint64_t *expiration)
             while(1);
         }
     }
-    /*
-    } else {
-        LIST_FOR_EACH_ENTRY(ed, &sd->runqueue, head) {
-            if (ed->period_cntdn == 0) {
-                ed->budget_cntdn = ed->budget;
-                ed->period_cntdn = ed->period;
-            }
-
-            ed->period_cntdn -= 1;
-        }
-
-        if (sd->current != NULL) {
-            next_vcpuid = current_ed->e->vcpuid;
-        }
-    }
-    */
 
     return next_vcpuid;
 }
