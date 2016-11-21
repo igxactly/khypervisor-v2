@@ -22,7 +22,7 @@ typedef enum vcpu_state {
 #define GUEST_IRQ_ENABLE 1
 #define GUEST_IRQ_DISABLE 0
 
-#define INJECT_SW 0
+#define INJECT_SW 1
 #define INJECT_HW 1
 
 struct virq_table {

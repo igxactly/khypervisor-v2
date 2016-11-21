@@ -42,7 +42,7 @@ struct memdesc_t vm_device_md[] = {
     {"serial_4", 0xe6c20000, 0xe6c20000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"serial_5", 0xe6c30000, 0xe6c30000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"serial_6", 0xe6ce0000, 0xe6ce0000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
-    {"serial_7", 0xe6e60000, 0xe6e60000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
+    {"serial_7", 0xe6e60000, 0xe6e60000, 0x10000, MEMATTR_DEVICE_MEMORY, 1},
     {"serial_8", 0xe6e68000, 0xe6e68000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"serial_9", 0xe62c0000, 0xe62c0000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"serial_10", 0xe62c8000, 0xe62c8000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
@@ -119,7 +119,6 @@ struct memdesc_t vm_device_md[] = {
     {"mmu_4", 0xec680000, 0xec680000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"mmu_5", 0xfe951000, 0xfe951000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"mmu_6", 0xffc80000, 0xffc80000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
-    {"memory_1", 0x40000000, 0x40000000, 0x40000000, MEMATTR_NORMAL_WB_CACHEABLE, 1},
     {"reset_1", 0xe6160000, 0xe6160000, 0x20000, MEMATTR_DEVICE_MEMORY, 1},
     {"arm-generic-counter_1", 0xe6080000, 0xe6080000, 0x20000, MEMATTR_DEVICE_MEMORY, 1},
     {"inter-connect-ram1_1", 0xe63c0000, 0xe63c0000, 0x50000, MEMATTR_DEVICE_MEMORY, 1},
@@ -127,6 +126,14 @@ struct memdesc_t vm_device_md[] = {
 
     {"PRR", 0xff000000, 0xff000000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
     {"powervr", 0xfd000000, 0xfd000000, 0x10000, MEMATTR_DEVICE_MEMORY, 1},
+
+//Lost things
+    {"meram", 0xe8080000, 0xe8080000, 0x50000, MEMATTR_DEVICE_MEMORY, 1},
+    {"memory_1", 0x40000000, 0x40000000, 0x20000000, MEMATTR_NORMAL_WB_CACHEABLE, 1},
+    {"cpg_clocks_2", 0xe6152000, 0xe6152000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
+    //{"meram", 0x66ffd000, 0x66ffd000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
+    {"meram", 0x66ffe000, 0x66ffe000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
+    {"meram", 0x66fff000, 0x66fff000, 0x1000, MEMATTR_DEVICE_MEMORY, 1},
 
     {0, 0, 0, 0, 0, 0}
 };

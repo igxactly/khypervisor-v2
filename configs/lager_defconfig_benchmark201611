@@ -1,0 +1,45 @@
+#
+# Automatically generated make config: don't edit
+# version: 
+# Mon Nov 14 20:15:31 2016
+#
+CONFIG_ARM=y
+# CONFIG_PL01X_SERIAL is not set
+CONFIG_SH_SERIAL=y
+# CONFIG_S5P_SERIAL is not set
+# CONFIG_VDEV_SAMPLE is not set
+# CONFIG_VDEV_SP804 is not set
+# CONFIG_VDEV_SYSREG is not set
+# CONFIG_VDEV_PL01X_SERIAL is not set
+# CONFIG_MCT is not set
+
+#
+# CORE
+#
+CONFIG_SMP=y
+# CONFIG_ATAGS is not set
+
+#
+# ARM architecture
+#
+CONFIG_ARMV7_VIRT=y
+# CONFIG_CPU_A7 is not set
+CONFIG_CPU_A15=y
+# CONFIG_ARCH_VERSATILE is not set
+CONFIG_RMOBILE=y
+# CONFIG_ARCH_EXYNOS is not set
+CONFIG_ARCH_NAME="armv7-a"
+CONFIG_CPU_NAME="cortex-a15"
+CONFIG_TARGET_NAME="lager"
+
+#
+# Compile-time checks and compiler options
+#
+CONFIG_DEBUG=y
+# CONFIG_GCC_V is not set
+
+#
+# VM configuration
+#
+CONFIG_NR_VMS=1
+CONFIG_VA_START=0x00000000

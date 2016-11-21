@@ -1,15 +1,22 @@
 #include <stdio.h>
 #include <arch/armv7.h>
 #include "cp15.h"
+#include "record.h"
 
 #define decode_ec(hsr)          (hsr >> 26)
 #define decode_il(hsr)          (hsr & (1 << 25))
 #define decode_iss(hsr)         (hsr & ~(0xfe000000))
 
+extern void dump_irq_info(void);
+
 // TODO(wonseok): If the traps cause the undefined exception or
 //                abort exception, we must forward the exception to guest VM.
 int do_hyp_trap(struct core_regs *regs)
 {
+#if DO_TRAP_RECORDING
+    start_trap_recording();
+#endif
+
     uint8_t pcpuid = smp_processor_id();
     int ret = -1;
     uint32_t hsr = read_cp32(HSR);
@@ -26,8 +33,14 @@ int do_hyp_trap(struct core_regs *regs)
     case MCRR_MRRC_CP15:
     case HCRTR_CP0_CP13:
     case MRC_VMRS_CP10:
-    case HVC:
         break;
+    case HVC:
+#if DO_EXEC_RECORDING || DO_TRAP_RECORDING || DO_IRQ_RECORDING
+        dump_info();
+        return 0;
+#else
+        break;
+#endif
     case DABT_FROM_GUEST:
         ret = handle_data_abort(regs, iss);
         break;
@@ -45,6 +58,9 @@ int do_hyp_trap(struct core_regs *regs)
         regs->pc += 2;
     }
 
+#if DO_TRAP_RECORDING
+    stop_trap_recording(ec);
+#endif
     return 0;
 
 trap_error:
