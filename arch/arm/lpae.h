@@ -154,7 +154,7 @@ typedef enum {
 } cachebility;
 
 pgentry set_table(addr_t pa);
-void write_pgentry(addr_t base, addr_t va, addr_t pa, uint8_t mem_attr, uint8_t ap, uint8_t af, uint8_t type);
+void write_pgentry(addr_t base, addr_t va, addr_t pa, uint8_t mem_attr, uint8_t ap, uint8_t af);
 
 #define set_valid      (1 << 0)
 #define set_invalid    (0 << 0)

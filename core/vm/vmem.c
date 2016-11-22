@@ -36,12 +36,12 @@ hvmm_status_t vmem_init(struct vmem *vmem, vmid_t vmid)
 
     do {
         paging_add_ipa_mapping(vmem->base, vmem->mmap[j].ipa, vmem->mmap[j].pa, vmem->mmap[j].attr, vmem->mmap[j].af,
-                               vmem->mmap[j].size, 1);
+                               vmem->mmap[j].size);
         j++;
     } while (vmem->mmap[j].label != 0);
 
     paging_add_ipa_mapping(vmem->base, CONFIG_VA_START, vm_conf[vmid].pa_start, MEMATTR_NORMAL_WB_CACHEABLE, 1,
-                           vm_conf[vmid].va_offsets, 0);
+                           vm_conf[vmid].va_offsets);
 
     if (vm_conf[vmid].nr_vcpus > 1) {
         vmem->actlr = 1 << 6;
