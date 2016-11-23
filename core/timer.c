@@ -9,6 +9,8 @@
 
 #include <arch/armv7/generic_timer.h>
 
+#include <record.h>
+
 static struct list_head active_timers[NR_CPUS];
 static struct list_head inactive_timers[NR_CPUS];
 static struct timer_ops *__ops;
@@ -77,6 +79,10 @@ static uint64_t saved_syscnt[NR_CPUS] = {0,};
 // TODO(igkang): rename pregs and pdata for our usage.
 static irqreturn_t timer_irq_handler(int irq, void *pregs, void *pdata)
 {
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_TIMER
+    start_irq_recording();
+#endif
+
     uint32_t pcpu = smp_processor_id();
 
 #ifdef __TEST_TIMER__
@@ -102,6 +108,15 @@ static irqreturn_t timer_irq_handler(int irq, void *pregs, void *pdata)
     timer_maintenance();
 
     timer_start();
+
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_TIMER
+    stop_irq_recording(irq);
+
+    dump_info();
+    // every 1000 event
+    // there's only the scheduler timer event on this version
+    // let's run 2 or more vcpus on first pcpu(=pcpu0)
+#endif
 
     return VMM_IRQ;
 }

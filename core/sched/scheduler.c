@@ -310,6 +310,11 @@ int sched_vcpu_detach(vcpuid_t vcpuid, uint32_t pcpu)
  */
 void do_schedule(void *pdata, uint64_t *expiration)
 {
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_SCHEDULER
+    start_irq_recording();
+#endif
+    //POINT2 start
+
     /* TODO:(igkang) function type(return/param) should be renewed */
     uint32_t pcpu = smp_processor_id();
     struct scheduler *const s = sched[pcpu];
@@ -321,7 +326,30 @@ void do_schedule(void *pdata, uint64_t *expiration)
 
     /* update vCPU's running time */
 
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_CONTEXTSW
+    start_irq_recording();
+#endif
+    //POINT3 start
     /* manipulate variables to cause context switch */
     switch_to(next_vcpuid);
     sched_perform_switch(pdata);
+    //POINT3 stop
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_CONTEXTSW
+    stop_irq_recording(irq);
+
+    dump_info();
+    // every 1000 event
+    // there's only the scheduler timer event on this version
+    // let's run 2 or more vcpus on first pcpu(=pcpu0)
+#endif
+
+    //POINT2 stop
+#if DO_IRQ_RECORDING && RECORDING_TARGET == RECORD_SCHEDULER
+    stop_irq_recording(irq);
+
+    dump_info();
+    // every 1000 event
+    // there's only the scheduler timer event on this version
+    // let's run 2 or more vcpus on first pcpu(=pcpu0)
+#endif
 }

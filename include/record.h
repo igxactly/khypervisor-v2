@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+#define RECORD_TIMER 1
+#define RECORD_SCHEDULER 2
+#define RECORD_CONTEXTSW 3
+
+#define RECORDING_TARGET RECORD_TIMER
+
 #define DO_EXEC_RECORDING 1
 
 #define DO_IRQ_RECORDING  1

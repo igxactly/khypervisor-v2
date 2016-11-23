@@ -6,7 +6,6 @@
 #include <irq-chip.h>
 #include <types.h>
 #include <core/scheduler.h>
-#include "record.h"
 
 #define VIRQ_MIN_VALID_PIRQ     16
 #define VIRQ_NUM_MAX_PIRQS      MAX_IRQS
@@ -15,9 +14,6 @@ static irq_handler_t irq_handlers[MAX_IRQS];
 
 hvmm_status_t do_irq(struct core_regs *regs)
 {
-#if DO_IRQ_RECORDING
-    start_irq_recording();
-#endif
     uint32_t irq = irq_hw->ack();
 
     irq_hw->eoi(irq);
@@ -26,9 +22,6 @@ hvmm_status_t do_irq(struct core_regs *regs)
         irq_hw->dir(irq);
     }
 
-#if DO_IRQ_RECORDING
-    stop_irq_recording(irq);
-#endif
     return HVMM_STATUS_SUCCESS;
 }
 

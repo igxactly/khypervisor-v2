@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <arch/armv7.h>
 #include "cp15.h"
-#include "record.h"
+#include <record.h>
 
 #define decode_ec(hsr)          (hsr >> 26)
 #define decode_il(hsr)          (hsr & (1 << 25))
@@ -13,10 +13,6 @@ extern void dump_irq_info(void);
 //                abort exception, we must forward the exception to guest VM.
 int do_hyp_trap(struct core_regs *regs)
 {
-#if DO_TRAP_RECORDING
-    start_trap_recording();
-#endif
-
     uint8_t pcpuid = smp_processor_id();
     int ret = -1;
     uint32_t hsr = read_cp32(HSR);
@@ -58,9 +54,6 @@ int do_hyp_trap(struct core_regs *regs)
         regs->pc += 2;
     }
 
-#if DO_TRAP_RECORDING
-    stop_trap_recording(ec);
-#endif
     return 0;
 
 trap_error:

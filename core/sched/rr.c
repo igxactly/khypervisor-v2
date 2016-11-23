@@ -47,7 +47,7 @@ int sched_rr_vcpu_register(struct scheduler *s, struct sched_entry *e)
     struct entry_data_rr *ed = (struct entry_data_rr *) malloc(sizeof(struct entry_data_rr));
 
     /* FIXME:(igkang) Hardcoded. should use function parameter's value for tick_reset_val init. */
-    ed->tick_reset_val = 0xFFFF;
+    ed->tick_reset_val = 5;
     ed->e = e;
 
     LIST_INITHEAD(&ed->head);
